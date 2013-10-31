@@ -1,0 +1,50 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Linq.Expressions;
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        @{
+
+            List<ebay.Areas.admin.Models.AdminMenuModel> l = ViewBag.TopMenu;
+            //var _l = ViewBag.TopMenu;
+
+        }
+        <!--@Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })-->
+        
+        <ul class="nav navbar-nav">
+            <li><img src="~/Content/Images/logo.png" width="125" /></li>
+            @foreach (ebay.Areas.admin.Models.AdminMenuModel i in l) {
+                
+            <!--li class="active"><a href="#">Link</a></li-->
+                if (i.SubMenu != null)
+                {
+                    <li class="dropdown">
+                        <a href="@i.Action" class="dropdown-toggle" data-toggle="dropdown">@i.Name<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @foreach (ebay.Areas.admin.Models.AdminMenuModel i1 in i.SubMenu)
+                            {
+                                if (i1.SubMenu != null)
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="@i1.Action">@i1.Name</a>
+                                        <ul class="dropdown-menu">
+                                            @foreach (ebay.Areas.admin.Models.AdminMenuModel i2 in i1.SubMenu) { 
+                                                <li><a tabindex="-1" href="@i2.Action">@i2.Name</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else { 
+                                    <li><a href="@i1.Action">@i1.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+                else { 
+                <li><a href="@i.Action">@i.Name</a></li>
+                }
+            }
+        </ul>
+    </div>
+</nav>
